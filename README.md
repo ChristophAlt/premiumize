@@ -14,10 +14,11 @@ p = Premiumize()
 p.set_account('customerId', 'pin')
 
 # list the torrents currently in your Torrent Cloud
+# if torrent.status is 'finished' it the content can be viewed and downloaded via http
 for torrent in p.torrents():
   torrent.print_torrent()
   
-# list the files and corresponding dowload links of each torrent
+# list the files contained in the torrent and corresponding dowload links
 for torrent in p.torrents():
   for item in torrent.items():
     '{0}: {1}'.format(item.name, item.link)
