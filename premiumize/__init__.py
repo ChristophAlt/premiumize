@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 """
-Unofficial Python API for Premiumize.me Torrent Cloud.
-Currently supports listing, adding and removing torrents.
+Unofficial Python API for Premiumize.me Downloader (Torrent Cloud and Filehoster).
+Currently supports listing, adding and removing torrents as well as getting links for filehosters.
 
 @author Christoph Alt
 @email chrizz.alt@gmail.com

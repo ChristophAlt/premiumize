@@ -1,21 +1,26 @@
 class URL(object):
     
-    def __init__(self, base, path):
+    def __init__(self, base, torrent_path, filehost_path):
         self.base = base.rstrip('/')
-        self.path = path
+        self.torrent_path = torrent_path
+        self.filehost_path = filehost_path
         
     @property
-    def add(self):
-        return self.base + self.path + '/add'
+    def torrent_add(self):
+        return self.base + self.torrent_path + '/add'
     
     @property
-    def list(self):
-        return self.base + self.path + '/list'
+    def torrent_list(self):
+        return self.base + self.torrent_path + '/list'
     
     @property
-    def remove(self):
-        return self.base + self.path + '/delete'
+    def torrent_remove(self):
+        return self.base + self.torrent_path + '/delete'
     
     @property
-    def browse(self):
+    def torrent_browse(self):
         return self.base + '/browsetorrent'
+
+    @property
+    def filehost_get_link(self):
+        return self.base + self.filehost_path + '/getlink'
