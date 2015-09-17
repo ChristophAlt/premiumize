@@ -12,6 +12,7 @@ import requests
 from functools import partial
 from lxml import html
 from utils import URL
+from utils import TorrentCloudPollingThread
 
 
 class Premiumize(object):
@@ -55,6 +56,7 @@ class TorrentCloud(object):
         self.customer_id = customer_id
         self.pin = pin
         self.headers = {'cookie': 'login={0}:{1}'.format(self.customer_id, self.pin)}
+        self.polling_thread = None
 
     def __iter__(self):
         return self.torrents()
@@ -139,6 +141,33 @@ class TorrentCloud(object):
                        speed_up,
                        torrent['status'],
                        request)
+
+    def add_callback(self, callback):
+        """
+        Adds a callback to the polling thread
+
+        :param callback: a function that is call when a torrent finishes
+        """
+
+        if self.polling_thread:
+            self.polling_thread.add_callback(callback)
+        else:
+            self.polling_thread = TorrentCloudPollingThread(self.torrents)
+            self.polling_thread.daemon = True
+            self.polling_thread.add_callback(callback)
+            self.polling_thread.start()
+
+    def remove_callback(self, callback):
+        """
+        Removes a callback to the polling thread
+
+        :param callback: a function that is call when a torrent finishes
+        """
+
+        self.polling_thread.remove_callback(callback)
+        if not self.polling_thread.callbacks:
+            self.polling_thread.stop()
+            self.polling_thread = None
 
 
 class Filehoster(object):
